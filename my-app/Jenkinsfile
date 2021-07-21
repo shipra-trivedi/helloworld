@@ -1,3 +1,4 @@
+def readProp;
 node {
 
         def mvnHome = tool 'Maven 3'
@@ -8,6 +9,10 @@ node {
         stage ('build')  {
     sh "${mvnHome}/bin/mvn clean install -f my-app/pom.xml"
     }
-   
+        
+   stage ('Read Property File')  {
+            readProp = readProperties file:'build.properties'
+            echo """APP NAME-${readProp['deploy.app.name']}"""
+    }
 
       }
